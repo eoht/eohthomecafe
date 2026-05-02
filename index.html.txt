@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Eunice Home Café</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5EDD8;
+    --caramel: #C17F3A;
+    --gold: #D4A853;
+    --matcha: #7A9E5F;
+    --midnight: #160F06;
+    --surface: #1E1509;
+    --surface2: #261B0A;
+    --border: rgba(212,168,83,0.15);
+    --text-dim: rgba(245,237,216,0.4);
+    --text-mid: rgba(245,237,216,0.65);
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+height: 100%;
+background: var(–midnight);
+font-family: ‘DM Sans’, sans-serif;
+color: var(–cream);
+overflow-x: hidden;
+}
+
+body::after {
+content: ‘’;
+position: fixed;
+inset: 0;
+background:
+radial-gradient(ellipse 70% 40% at 15% 5%, rgba(193,127,58,0.2) 0%, transparent 55%),
+radial-gradient(ellipse 50% 35% at 85% 90%, rgba(122,158,95,0.1) 0%, transparent 50%);
+pointer-events: none;
+z-index: 0;
+}
+
+.app {
+position: relative;
+z-index: 1;
+max-width: 430px;
+margin: 0 auto;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+padding-bottom: 40px;
+}
+
+/* ── HEADER ── */
+.header {
+padding: 52px 24px 20px;
+text-align: center;
+}
+
+.logo-mark {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+margin-bottom: 14px;
+}
+
+.logo-line { flex: 1; height: 1px; background: var(–border); }
+
+.logo-icon {
+width: 36px; height: 36px;
+background: rgba(212,168,83,0.12);
+border: 1px solid var(–border);
+border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+font-size: 16px;
+}
+
+.header h1 {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 42px;
+font-weight: 700;
+color: var(–cream);
+line-height: 1;
+margin-bottom: 4px;
+}
+
+.header h1 span {
+font-style: italic;
+color: var(–gold);
+}
+
+.header-sub {
+font-size: 11px;
+font-weight: 400;
+letter-spacing: 2.5px;
+text-transform: uppercase;
+color: var(–text-dim);
+margin-top: 8px;
+}
+
+/* ── STEP SYSTEM ── */
+.steps-wrap {
+padding: 0 16px;
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.step-card {
+background: var(–surface);
+border: 1px solid rgba(245,237,216,0.07);
+border-radius: 20px;
+overflow: hidden;
+transition: border-color 0.3s;
+}
+
+.step-card.active { border-color: rgba(212,168,83,0.3); }
+.step-card.done { border-color: rgba(122,158,95,0.25); }
+
+.step-header {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 16px 18px;
+cursor: pointer;
+user-select: none;
+}
+
+.step-num {
+width: 26px; height: 26px;
+border-radius: 50%;
+border: 1.5px solid var(–border);
+display: flex; align-items: center; justify-content: center;
+font-size: 11px;
+font-weight: 600;
+color: var(–text-dim);
+flex-shrink: 0;
+transition: all 0.3s;
+}
+
+.step-card.active .step-num {
+background: var(–gold);
+border-color: var(–gold);
+color: var(–midnight);
+}
+
+.step-card.done .step-num {
+background: var(–matcha);
+border-color: var(–matcha);
+color: white;
+font-size: 13px;
+}
+
+.step-card.done .step-num::before { content: ‘✓’; }
+
+.step-title-wrap { flex: 1; }
+
+.step-title {
+font-size: 14px;
+font-weight: 600;
+color: var(–cream);
+}
+
+.step-card.done .step-title { color: var(–text-mid); }
+
+.step-summary {
+font-size: 11px;
+color: var(–gold);
+margin-top: 2px;
+display: none;
+}
+
+.step-card.done .step-summary { display: block; }
+
+.step-chevron {
+color: var(–text-dim);
+font-size: 12px;
+transition: transform 0.3s;
+}
+
+.step-card.active .step-chevron { transform: rotate(180deg); color: var(–gold); }
+
+.step-body {
+display: none;
+padding: 0 18px 18px;
+animation: slideDown 0.25s ease;
+}
+
+.step-card.active .step-body { display: block; }
+
+@keyframes slideDown {
+from { opacity: 0; transform: translateY(-8px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── OPTION GRIDS ── */
+.option-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 8px;
+}
+
+.option-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+
+.opt-btn {
+padding: 14px 10px;
+border-radius: 14px;
+border: 1.5px solid rgba(245,237,216,0.1);
+background: rgba(245,237,216,0.03);
+color: var(–text-mid);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 12px;
+font-weight: 500;
+cursor: pointer;
+text-align: center;
+transition: all 0.2s;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 7px;
+line-height: 1.3;
+}
+
+.opt-btn .opt-icon { font-size: 22px; }
+.opt-btn:active { transform: scale(0.97); }
+
+.opt-btn.selected {
+border-color: var(–gold);
+background: rgba(212,168,83,0.1);
+color: var(–gold);
+}
+
+.opt-btn.selected-green {
+border-color: var(–matcha);
+background: rgba(122,158,95,0.1);
+color: #9FC97D;
+}
+
+/* full-width option */
+.opt-btn.full { grid-column: 1 / -1; flex-direction: row; gap: 12px; padding: 13px 16px; }
+.opt-btn.full .opt-icon { font-size: 18px; }
+
+/* ── INGREDIENT SYSTEM ── */
+.ingr-section { display: flex; flex-direction: column; gap: 12px; }
+
+.ingr-search-wrap {
+position: relative;
+display: flex;
+align-items: center;
+}
+
+.ingr-search {
+width: 100%;
+padding: 12px 14px 12px 40px;
+background: rgba(245,237,216,0.05);
+border: 1.5px solid rgba(245,237,216,0.1);
+border-radius: 14px;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 14px;
+color: var(–cream);
+outline: none;
+transition: border-color 0.2s;
+}
+
+.ingr-search:focus { border-color: rgba(212,168,83,0.4); }
+.ingr-search::placeholder { color: var(–text-dim); }
+
+.search-icon {
+position: absolute;
+left: 13px;
+font-size: 16px;
+pointer-events: none;
+opacity: 0.5;
+}
+
+/* Category tabs */
+.ingr-tabs {
+display: flex;
+gap: 6px;
+overflow-x: auto;
+-ms-overflow-style: none; scrollbar-width: none;
+padding-bottom: 2px;
+}
+.ingr-tabs::-webkit-scrollbar { display: none; }
+
+.ingr-tab {
+flex-shrink: 0;
+padding: 6px 14px;
+border-radius: 20px;
+border: 1px solid rgba(245,237,216,0.1);
+background: transparent;
+color: var(–text-dim);
+font-size: 11px;
+font-weight: 500;
+cursor: pointer;
+transition: all 0.2s;
+white-space: nowrap;
+}
+
+.ingr-tab.active {
+background: rgba(212,168,83,0.12);
+border-color: var(–gold);
+color: var(–gold);
+}
+
+/* Ingredient chips grid */
+.ingr-chips {
+display: flex;
+flex-wrap: wrap;
+gap: 7px;
+min-height: 40px;
+}
+
+.ingr-chip {
+padding: 8px 14px;
+border-radius: 20px;
+border: 1.5px solid rgba(245,237,216,0.1);
+background: rgba(245,237,216,0.04);
+color: var(–text-mid);
+font-size: 12px;
+font-weight: 400;
+cursor: pointer;
+transition: all 0.2s;
+display: flex; align-items: center; gap: 5px;
+}
+
+.ingr-chip:active { transform: scale(0.96); }
+
+.ingr-chip.picked {
+border-color: var(–gold);
+background: rgba(212,168,83,0.12);
+color: var(–gold);
+}
+
+.ingr-chip.picked::after { content: ’ ✓’; font-size: 11px; }
+
+/* Selected ingredients display */
+.selected-ingr-wrap {
+background: rgba(245,237,216,0.03);
+border: 1px dashed rgba(245,237,216,0.12);
+border-radius: 14px;
+padding: 12px 14px;
+min-height: 50px;
+}
+
+.selected-ingr-label {
+font-size: 10px;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: var(–text-dim);
+margin-bottom: 8px;
+}
+
+.selected-tags {
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+}
+
+.sel-tag {
+display: flex;
+align-items: center;
+gap: 5px;
+padding: 5px 10px;
+background: rgba(212,168,83,0.15);
+border-radius: 10px;
+font-size: 12px;
+color: var(–gold);
+}
+
+.sel-tag button {
+background: none; border: none;
+color: rgba(212,168,83,0.6);
+font-size: 14px;
+line-height: 1;
+cursor: pointer;
+padding: 0;
+transition: color 0.15s;
+}
+.sel-tag button:hover { color: #ff6b6b; }
+
+.no-ingr { font-size: 12px; color: var(–text-dim); font-style: italic; }
+
+/* custom input row */
+.custom-ingr-row {
+display: flex;
+gap: 8px;
+align-items: center;
+}
+
+.custom-ingr-input {
+flex: 1;
+padding: 10px 14px;
+background: rgba(245,237,216,0.05);
+border: 1.5px solid rgba(245,237,216,0.1);
+border-radius: 12px;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 13px;
+color: var(–cream);
+outline: none;
+}
+.custom-ingr-input:focus { border-color: rgba(212,168,83,0.35); }
+.custom-ingr-input::placeholder { color: var(–text-dim); }
+
+.add-ingr-btn {
+padding: 10px 16px;
+border-radius: 12px;
+border: none;
+background: rgba(212,168,83,0.15);
+color: var(–gold);
+font-size: 13px;
+font-weight: 600;
+cursor: pointer;
+white-space: nowrap;
+transition: background 0.2s;
+}
+.add-ingr-btn:hover { background: rgba(212,168,83,0.25); }
+
+/* ── NEXT BUTTON ── */
+.next-btn {
+width: 100%;
+margin-top: 14px;
+padding: 14px;
+border-radius: 14px;
+border: none;
+background: linear-gradient(135deg, var(–caramel), var(–gold));
+color: var(–midnight);
+font-family: ‘DM Sans’, sans-serif;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.25s;
+letter-spacing: 0.3px;
+}
+.next-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(193,127,58,0.3); }
+.next-btn:active { transform: scale(0.98); }
+.next-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ── GENERATE BTN ── */
+.generate-btn {
+margin: 16px 16px 0;
+padding: 20px;
+border-radius: 20px;
+border: none;
+background: linear-gradient(135deg, var(–caramel) 0%, var(–gold) 100%);
+color: var(–midnight);
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 20px;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.3s;
+position: relative;
+overflow: hidden;
+letter-spacing: 0.3px;
+}
+
+.generate-btn::before {
+content: ‘’;
+position: absolute;
+top: 0; left: -100%;
+width: 100%; height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+transition: left 0.5s;
+}
+.generate-btn:hover::before { left: 100%; }
+.generate-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(193,127,58,0.35); }
+.generate-btn:active { transform: scale(0.98); }
+.generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ── RESULTS ── */
+.results-section {
+margin: 20px 16px 0;
+display: none;
+animation: fadeUp 0.5s ease;
+}
+.results-section.visible { display: block; }
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(16px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.results-label {
+display: flex;
+justify-content: space-between;
+align-items: baseline;
+margin-bottom: 14px;
+}
+
+.results-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 26px;
+font-weight: 600;
+font-style: italic;
+color: var(–cream);
+}
+
+.results-meta { font-size: 11px; color: var(–text-dim); }
+
+/* Drink card */
+.drink-card {
+background: var(–surface);
+border: 1px solid rgba(245,237,216,0.08);
+border-radius: 22px;
+margin-bottom: 12px;
+overflow: hidden;
+transition: border-color 0.2s;
+}
+.drink-card:last-child { margin-bottom: 0; }
+
+.dc-top {
+padding: 18px 18px 0;
+display: flex;
+gap: 14px;
+align-items: flex-start;
+}
+
+.dc-emoji {
+width: 54px; height: 54px;
+background: rgba(212,168,83,0.1);
+border: 1px solid rgba(212,168,83,0.2);
+border-radius: 16px;
+display: flex; align-items: center; justify-content: center;
+font-size: 26px;
+flex-shrink: 0;
+}
+
+.dc-info { flex: 1; }
+
+.dc-name {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 21px;
+font-weight: 700;
+color: var(–cream);
+line-height: 1.2;
+margin-bottom: 6px;
+}
+
+.dc-badges {
+display: flex;
+flex-wrap: wrap;
+gap: 5px;
+}
+
+.badge {
+font-size: 10px;
+font-weight: 500;
+padding: 3px 9px;
+border-radius: 8px;
+letter-spacing: 0.4px;
+}
+.badge-alc { background: rgba(212,136,92,0.2); color: #D4875C; }
+.badge-nonalc { background: rgba(122,158,95,0.18); color: #8EC070; }
+.badge-coffee { background: rgba(193,127,58,0.2); color: #D49040; }
+.badge-matcha { background: rgba(122,158,95,0.2); color: #8EC070; }
+.badge-tea { background: rgba(180,140,100,0.2); color: #C4A06A; }
+.badge-cocktail { background: rgba(190,100,120,0.2); color: #D48090; }
+
+.dc-body { padding: 12px 18px 18px; }
+
+.dc-desc {
+font-size: 13px;
+color: var(–text-mid);
+line-height: 1.65;
+margin-bottom: 14px;
+}
+
+/* Recipe accordion */
+.recipe-toggle {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 11px 14px;
+background: rgba(212,168,83,0.06);
+border: 1px solid rgba(212,168,83,0.12);
+border-radius: 12px;
+cursor: pointer;
+transition: background 0.2s;
+}
+.recipe-toggle:hover { background: rgba(212,168,83,0.1); }
+
+.recipe-toggle-left {
+display: flex; align-items: center; gap: 8px;
+font-size: 12px; font-weight: 600;
+color: var(–gold);
+letter-spacing: 0.5px;
+}
+
+.rt-arrow {
+font-size: 11px;
+color: var(–gold);
+transition: transform 0.3s;
+}
+.recipe-toggle.open .rt-arrow { transform: rotate(180deg); }
+
+.recipe-body {
+display: none;
+margin-top: 10px;
+padding: 14px;
+background: rgba(245,237,216,0.02);
+border: 1px solid rgba(245,237,216,0.06);
+border-radius: 12px;
+}
+.recipe-body.open { display: block; animation: slideDown 0.25s ease; }
+
+.rb-section {
+font-size: 9px;
+font-weight: 600;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: rgba(212,168,83,0.55);
+margin-bottom: 8px;
+margin-top: 14px;
+}
+.rb-section:first-child { margin-top: 0; }
+
+.rb-ingr-list { display: flex; flex-direction: column; gap: 5px; }
+
+.rb-ingr {
+display: flex; align-items: center; gap: 8px;
+font-size: 13px;
+color: var(–text-mid);
+}
+.rb-ingr::before {
+content: ‘’;
+width: 5px; height: 5px;
+border-radius: 50%;
+background: var(–gold);
+opacity: 0.5;
+flex-shrink: 0;
+}
+
+.rb-steps { counter-reset: step; display: flex; flex-direction: column; gap: 2px; }
+
+.rb-step {
+display: flex;
+gap: 10px;
+font-size: 13px;
+color: var(–text-mid);
+line-height: 1.6;
+padding: 7px 0;
+border-bottom: 1px solid rgba(245,237,216,0.05);
+}
+.rb-step:last-child { border-bottom: none; }
+
+.rb-step-num {
+counter-increment: step;
+content: counter(step);
+width: 20px; height: 20px;
+min-width: 20px;
+background: rgba(212,168,83,0.12);
+color: var(–gold);
+font-size: 10px;
+font-weight: 600;
+border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+margin-top: 3px;
+}
+
+/* Loading */
+.loading-card {
+background: var(–surface);
+border: 1px solid rgba(245,237,216,0.07);
+border-radius: 22px;
+padding: 44px 20px;
+text-align: center;
+}
+
+.loading-steam {
+display: flex;
+justify-content: center;
+gap: 6px;
+margin-bottom: 6px;
+}
+
+.steam-line {
+width: 2px;
+height: 24px;
+background: linear-gradient(to top, var(–gold), transparent);
+border-radius: 2px;
+animation: steam 1.4s ease-in-out infinite;
+opacity: 0.6;
+}
+.steam-line:nth-child(2) { animation-delay: 0.3s; height: 18px; }
+.steam-line:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes steam {
+0%, 100% { transform: scaleY(1) translateY(0); opacity: 0.4; }
+50% { transform: scaleY(1.3) translateY(-4px); opacity: 0.8; }
+}
+
+.loading-cup { font-size: 36px; margin-bottom: 14px; }
+
+.loading-text {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 16px;
+font-style: italic;
+color: var(–text-dim);
+}
+
+.loading-dots {
+display: inline-flex; gap: 4px; vertical-align: middle; margin-left: 4px;
+}
+.loading-dots span {
+width: 4px; height: 4px;
+background: var(–gold);
+border-radius: 50%;
+animation: blink 1.2s infinite;
+opacity: 0.5;
+}
+.loading-dots span:nth-child(2) { animation-delay: 0.3s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes blink {
+0%, 80%, 100% { opacity: 0.3; transform: scale(1); }
+40% { opacity: 1; transform: scale(1.3); }
+}
+
+.error-card {
+background: rgba(212,100,80,0.08);
+border: 1px solid rgba(212,100,80,0.2);
+border-radius: 16px;
+padding: 20px;
+font-size: 13px;
+color: #D4875C;
+text-align: center;
+line-height: 1.6;
+}
+
+/* Reset link */
+.reset-btn {
+display: block;
+margin: 16px auto 0;
+background: none;
+border: none;
+font-size: 12px;
+color: var(–text-dim);
+cursor: pointer;
+text-decoration: underline;
+text-underline-offset: 3px;
+}
+.reset-btn:hover { color: var(–cream); }
+
+/* Divider */
+.section-divider {
+height: 1px;
+background: rgba(245,237,216,0.06);
+margin: 0 16px;
+}
+
+/* Progress indicator */
+.progress-bar {
+display: flex;
+gap: 4px;
+padding: 0 16px 16px;
+}
+.prog-dot {
+flex: 1;
+height: 3px;
+border-radius: 2px;
+background: rgba(245,237,216,0.1);
+transition: background 0.3s;
+}
+.prog-dot.done { background: var(–matcha); }
+.prog-dot.active { background: var(–gold); }
+</style>
+
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+
+  <div class="header">
+    <div class="logo-mark">
+      <div class="logo-line"></div>
+      <div class="logo-icon">☕</div>
+      <div class="logo-line"></div>
+    </div>
+    <h1>Eunice<br><span>Home Café</span></h1>
+    <div class="header-sub">Your personal barista, anytime</div>
+  </div>
+
+  <!-- PROGRESS -->
+
+  <div class="progress-bar" id="progressBar">
+    <div class="prog-dot active" id="pd1"></div>
+    <div class="prog-dot" id="pd2"></div>
+    <div class="prog-dot" id="pd3"></div>
+    <div class="prog-dot" id="pd4"></div>
+  </div>
+
+  <!-- STEPS -->
+
+  <div class="steps-wrap">
+
+```
+<!-- STEP 1: Drink type -->
+<div class="step-card active" id="step1">
+  <div class="step-header" onclick="toggleStep(1)">
+    <div class="step-num" id="sn1">1</div>
+    <div class="step-title-wrap">
+      <div class="step-title">What are you craving?</div>
+      <div class="step-summary" id="ss1"></div>
+    </div>
+    <div class="step-chevron" id="sc1">▼</div>
+  </div>
+  <div class="step-body">
+    <div class="option-grid">
+      <button class="opt-btn" data-val="coffee" onclick="pickType(this)">
+        <span class="opt-icon">☕</span>Coffee Latte
+      </button>
+      <button class="opt-btn" data-val="matcha" onclick="pickType(this)">
+        <span class="opt-icon">🍵</span>Matcha Latte
+      </button>
+      <button class="opt-btn" data-val="tea" onclick="pickType(this)">
+        <span class="opt-icon">🫖</span>Tea Latte
+      </button>
+      <button class="opt-btn" data-val="cocktail" onclick="pickType(this)">
+        <span class="opt-icon">🍹</span>Cocktail
+      </button>
+      <button class="opt-btn full" data-val="any" onclick="pickType(this)">
+        <span class="opt-icon">🎲</span>Surprise me — any type!
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 2: Alcohol -->
+<div class="step-card" id="step2">
+  <div class="step-header" onclick="toggleStep(2)">
+    <div class="step-num" id="sn2">2</div>
+    <div class="step-title-wrap">
+      <div class="step-title">Alcoholic or not?</div>
+      <div class="step-summary" id="ss2"></div>
+    </div>
+    <div class="step-chevron" id="sc2">▼</div>
+  </div>
+  <div class="step-body">
+    <div class="option-grid three">
+      <button class="opt-btn" data-val="non-alcoholic" onclick="pickAlcohol(this)">
+        <span class="opt-icon">🍃</span>Non-Alc
+      </button>
+      <button class="opt-btn" data-val="alcoholic" onclick="pickAlcohol(this)">
+        <span class="opt-icon">🍸</span>Alcoholic
+      </button>
+      <button class="opt-btn" data-val="both" onclick="pickAlcohol(this)">
+        <span class="opt-icon">✨</span>Both
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3: Mood -->
+<div class="step-card" id="step3">
+  <div class="step-header" onclick="toggleStep(3)">
+    <div class="step-num" id="sn3">3</div>
+    <div class="step-title-wrap">
+      <div class="step-title">What's the vibe?</div>
+      <div class="step-summary" id="ss3"></div>
+    </div>
+    <div class="step-chevron" id="sc3">▼</div>
+  </div>
+  <div class="step-body">
+    <div class="option-grid">
+      <button class="opt-btn" data-val="cozy" onclick="pickMood(this)">
+        <span class="opt-icon">🕯️</span>Cozy &amp; warm
+      </button>
+      <button class="opt-btn" data-val="refreshing" onclick="pickMood(this)">
+        <span class="opt-icon">🌊</span>Cool &amp; refresh
+      </button>
+      <button class="opt-btn" data-val="indulgent" onclick="pickMood(this)">
+        <span class="opt-icon">🍫</span>Rich &amp; indulgent
+      </button>
+      <button class="opt-btn" data-val="energizing" onclick="pickMood(this)">
+        <span class="opt-icon">⚡</span>Wake me up!
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 4: Ingredients -->
+<div class="step-card" id="step4">
+  <div class="step-header" onclick="toggleStep(4)">
+    <div class="step-num" id="sn4">4</div>
+    <div class="step-title-wrap">
+      <div class="step-title">What's in your kitchen?</div>
+      <div class="step-summary" id="ss4"></div>
+    </div>
+    <div class="step-chevron" id="sc4">▼</div>
+  </div>
+  <div class="step-body">
+    <div class="ingr-section">
+
+      <!-- Selected ingredients display -->
+      <div class="selected-ingr-wrap">
+        <div class="selected-ingr-label">Your ingredients</div>
+        <div class="selected-tags" id="selectedTags">
+          <span class="no-ingr" id="noIngrText">Tap items below to add them ↓</span>
+        </div>
+      </div>
+
+      <!-- Category tabs -->
+      <div class="ingr-tabs" id="ingrTabs">
+        <button class="ingr-tab active" data-cat="dairy" onclick="switchTab(this)">🥛 Dairy</button>
+        <button class="ingr-tab" data-cat="coffee" onclick="switchTab(this)">☕ Coffee</button>
+        <button class="ingr-tab" data-cat="tea" onclick="switchTab(this)">🍵 Tea</button>
+        <button class="ingr-tab" data-cat="sweetener" onclick="switchTab(this)">🍯 Sweeteners</button>
+        <button class="ingr-tab" data-cat="spice" onclick="switchTab(this)">🌿 Spices</button>
+        <button class="ingr-tab" data-cat="spirits" onclick="switchTab(this)">🍸 Spirits</button>
+        <button class="ingr-tab" data-cat="fruit" onclick="switchTab(this)">🍋 Fruits</button>
+        <button class="ingr-tab" data-cat="other" onclick="switchTab(this)">⋯ Other</button>
+      </div>
+
+      <!-- Chip list -->
+      <div class="ingr-chips" id="ingrChips"></div>
+
+      <!-- Custom add -->
+      <div class="custom-ingr-row">
+        <input class="custom-ingr-input" id="customInput" placeholder="Something else? Type it…" onkeydown="if(event.key==='Enter')addCustomIngr()">
+        <button class="add-ingr-btn" onclick="addCustomIngr()">+ Add</button>
+      </div>
+
+      <button class="next-btn" id="step4Next" onclick="doneIngredients()" disabled>
+        Done — let's brew! →
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+  </div><!-- /steps-wrap -->
+
+  <!-- GENERATE BTN (shows after all steps done) -->
+
+  <button class="generate-btn" id="generateBtn" onclick="generateDrinks()" style="display:none">
+    ✦ Craft Eunice's Menu ✦
+  </button>
+
+  <!-- RESULTS -->
+
+  <div class="results-section" id="resultsSection">
+    <div class="results-label">
+      <div class="results-title">Today's Menu</div>
+      <div class="results-meta" id="resultsMeta"></div>
+    </div>
+    <div id="drinksList"></div>
+    <button class="reset-btn" onclick="resetAll()">↺ Start over</button>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+  // ── STATE ──
+  const state = {
+    type: null,
+    alcohol: null,
+    mood: null,
+    ingredients: new Set()
+  };
+
+  let currentStep = 1;
+  let currentTab = 'dairy';
+
+  // ── INGREDIENT DATABASE ──
+  const ingrDB = {
+    dairy: ['Whole milk','Oat milk','Almond milk','Soy milk','Coconut milk','Heavy cream','Half & half','Condensed milk','Evaporated milk'],
+    coffee: ['Espresso','Instant coffee','Drip coffee','Coffee grounds','Cold brew'],
+    tea: ['Black tea','Green tea','Matcha powder','Oolong tea','Jasmine tea','Earl Grey','Chamomile','Brown sugar pearls','Taro powder'],
+    sweetener: ['White sugar','Brown sugar','Honey','Maple syrup','Agave','Vanilla syrup','Caramel syrup','Simple syrup','Stevia'],
+    spice: ['Cinnamon','Vanilla extract','Cardamom','Nutmeg','Ginger','Cocoa powder','Chocolate syrup','Peppermint'],
+    spirits: ['Vodka','Rum','Gin','Tequila','Whiskey','Baileys','Kahlúa','Amaretto','Triple sec','Champagne/Prosecco'],
+    fruit: ['Lemon','Lime','Orange','Strawberry','Mango','Passion fruit','Raspberry','Pineapple','Coconut water'],
+    other: ['Ice','Whipped cream','Sea salt','Boba/tapioca pearls','Rose water','Lavender syrup','Sparkling water','Club soda']
+  };
+
+  // ── RENDER CHIPS ──
+  function renderChips(cat) {
+    const container = document.getElementById('ingrChips');
+    container.innerHTML = ingrDB[cat].map(item => {
+      const picked = state.ingredients.has(item);
+      return `<button class="ingr-chip ${picked ? 'picked' : ''}" onclick="toggleIngr(this, '${item}')">${item}</button>`;
+    }).join('');
+  }
+
+  function switchTab(el) {
+    document.querySelectorAll('.ingr-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    currentTab = el.dataset.cat;
+    renderChips(currentTab);
+  }
+
+  function toggleIngr(el, item) {
+    if (state.ingredients.has(item)) {
+      state.ingredients.delete(item);
+      el.classList.remove('picked');
+    } else {
+      state.ingredients.add(item);
+      el.classList.add('picked');
+    }
+    updateSelectedDisplay();
+  }
+
+  function removeIngr(item) {
+    state.ingredients.delete(item);
+    // also un-pick chip if visible
+    document.querySelectorAll('.ingr-chip').forEach(c => {
+      if (c.textContent.replace(' ✓','').trim() === item) c.classList.remove('picked');
+    });
+    updateSelectedDisplay();
+  }
+
+  function addCustomIngr() {
+    const input = document.getElementById('customInput');
+    const val = input.value.trim();
+    if (!val) return;
+    state.ingredients.add(val);
+    input.value = '';
+    updateSelectedDisplay();
+  }
+
+  function updateSelectedDisplay() {
+    const wrap = document.getElementById('selectedTags');
+    const noText = document.getElementById('noIngrText');
+    const nextBtn = document.getElementById('step4Next');
+    if (state.ingredients.size === 0) {
+      wrap.innerHTML = '<span class="no-ingr" id="noIngrText">Tap items below to add them ↓</span>';
+      nextBtn.disabled = true;
+    } else {
+      wrap.innerHTML = [...state.ingredients].map(item =>
+        `<div class="sel-tag">${item}<button onclick="removeIngr('${item}')">×</button></div>`
+      ).join('');
+      nextBtn.disabled = false;
+    }
+    // update step summary
+    if (state.ingredients.size > 0) {
+      const preview = [...state.ingredients].slice(0,3).join(', ');
+      const extra = state.ingredients.size > 3 ? ` +${state.ingredients.size - 3} more` : '';
+      document.getElementById('ss4').textContent = preview + extra;
+    }
+  }
+
+  // ── STEP NAVIGATION ──
+  function pickType(btn) {
+    document.querySelectorAll('#step1 .opt-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.type = btn.dataset.val;
+    const labels = { coffee:'☕ Coffee Latte', matcha:'🍵 Matcha Latte', tea:'🫖 Tea Latte', cocktail:'🍹 Cocktail', any:'🎲 Surprise me' };
+    document.getElementById('ss1').textContent = labels[state.type];
+    setTimeout(() => advanceTo(2), 250);
+  }
+
+  function pickAlcohol(btn) {
+    document.querySelectorAll('#step2 .opt-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.alcohol = btn.dataset.val;
+    const labels = { 'non-alcoholic':'🍃 Non-Alcoholic', alcoholic:'🍸 Alcoholic', both:'✨ Both' };
+    document.getElementById('ss2').textContent = labels[state.alcohol];
+    setTimeout(() => advanceTo(3), 250);
+  }
+
+  function pickMood(btn) {
+    document.querySelectorAll('#step3 .opt-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.mood = btn.dataset.val;
+    const labels = { cozy:'🕯️ Cozy & warm', refreshing:'🌊 Cool & refreshing', indulgent:'🍫 Rich & indulgent', energizing:'⚡ Wake me up!' };
+    document.getElementById('ss3').textContent = labels[state.mood];
+    setTimeout(() => advanceTo(4), 250);
+  }
+
+  function doneIngredients() {
+    if (state.ingredients.size === 0) return;
+    markDone(4);
+    updateProgress(4);
+    document.getElementById('generateBtn').style.display = 'block';
+    document.getElementById('generateBtn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function advanceTo(n) {
+    markDone(n - 1);
+    openStep(n);
+    updateProgress(n);
+    renderChips(currentTab); // refresh chips when step 4 opens
+  }
+
+  function markDone(n) {
+    const card = document.getElementById('step' + n);
+    if (!card) return;
+    card.classList.remove('active');
+    card.classList.add('done');
+    document.getElementById('sc' + n).style.display = 'none';
+    currentStep = n + 1;
+  }
+
+  function openStep(n) {
+    const card = document.getElementById('step' + n);
+    if (!card) return;
+    card.classList.remove('done');
+    card.classList.add('active');
+    document.getElementById('sc' + n).style.display = '';
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function toggleStep(n) {
+    const card = document.getElementById('step' + n);
+    if (card.classList.contains('active')) {
+      // collapse (allow re-editing)
+    } else {
+      card.classList.add('active');
+      card.classList.remove('done');
+      document.getElementById('sc' + n).style.display = '';
+      if (n === 4) renderChips(currentTab);
+    }
+  }
+
+  function updateProgress(active) {
+    for (let i = 1; i <= 4; i++) {
+      const dot = document.getElementById('pd' + i);
+      if (i < active) { dot.className = 'prog-dot done'; }
+      else if (i === active) { dot.className = 'prog-dot active'; }
+      else { dot.className = 'prog-dot'; }
+    }
+  }
+
+  // ── GENERATE ──
+  async function generateDrinks() {
+    const btn = document.getElementById('generateBtn');
+    const results = document.getElementById('resultsSection');
+    const list = document.getElementById('drinksList');
+
+    btn.disabled = true;
+    btn.textContent = '✦ Brewing your menu…';
+
+    results.classList.add('visible');
+    list.innerHTML = `
+      <div class="loading-card">
+        <div class="loading-steam"><div class="steam-line"></div><div class="steam-line"></div><div class="steam-line"></div></div>
+        <div class="loading-cup">☕</div>
+        <div class="loading-text">Your barista is crafting<span class="loading-dots"><span></span><span></span><span></span></span></div>
+      </div>`;
+
+    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const typeMap = {
+      any: 'any drink type — choose the best fit from coffee latte, matcha latte, tea latte (Molly Tea / Chagee / Tiger Sugar style), or cocktail',
+      coffee: 'coffee lattes and espresso-based drinks only',
+      matcha: 'matcha lattes and matcha-based drinks only',
+      tea: 'tea lattes in a Molly Tea / Chagee / Tiger Sugar style (brown sugar milk tea, dirty matcha, jasmine latte, oolong, etc.)',
+      cocktail: 'cocktails and spirit-based drinks only'
+    };
+
+    const alcMap = {
+      'non-alcoholic': 'strictly non-alcoholic — no alcohol',
+      'alcoholic': 'alcoholic — use spirits where possible',
+      'both': 'a mix: include both alcoholic and non-alcoholic drinks across the 3 suggestions'
+    };
+
+    const ingredients = [...state.ingredients].join(', ');
+
+    const prompt = `You are Eunice's personal café barista. Create 3 drinks using ONLY the listed ingredients. Be creative and café-quality.
+
+Ingredients available: ${ingredients}
+Drink category: ${typeMap[state.type]}
+Alcohol: ${alcMap[state.alcohol]}
+Mood/vibe: ${state.mood}
+
+Return ONLY valid JSON, no markdown, no code fences:
+{"drinks":[{"name":"string","emoji":"string","type":"coffee|matcha|tea|cocktail","isAlcoholic":false,"description":"2 evocative sentences","ingredients":["amount + item"],"steps":["clear step"]}]}
+
+Rules:
+- Use ONLY provided ingredients. Assume ice, water, a cup and spoon are available.
+- Match the ${state.mood} vibe in the name and description
+- Names should be café-worthy and poetic, not generic (e.g. "Velvet Brown Sugar Latte" not "Brown Sugar Latte")
+- 3–5 steps per drink, each 1–2 sentences
+- Include amounts in ingredients (e.g. "1 shot espresso", "150ml oat milk")
+- Make drinks distinct from each other
+- Tea lattes: think Molly Tea, Chagee, Tiger Sugar — brown sugar boba, dirty matchas, iced jasmine lattes, etc.`;
+
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+      const data = await res.json();
+      const raw = data.content.map(c => c.text || '').join('');
+      const clean = raw.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(clean);
+      renderDrinks(parsed.drinks);
+      document.getElementById('resultsMeta').textContent = parsed.drinks.length + ' drinks for you';
+    } catch(e) {
+      list.innerHTML = `<div class="error-card">Oops! Something went wrong. Try checking your ingredients or give it another shot ☕</div>`;
+    }
+
+    btn.disabled = false;
+    btn.textContent = '✦ Craft Eunice\'s Menu ✦';
+  }
+
+  function renderDrinks(drinks) {
+    const list = document.getElementById('drinksList');
+    const typeClass = { coffee:'badge-coffee', matcha:'badge-matcha', tea:'badge-tea', cocktail:'badge-cocktail' };
+    list.innerHTML = drinks.map((d, i) => `
+      <div class="drink-card">
+        <div class="dc-top">
+          <div class="dc-emoji">${d.emoji}</div>
+          <div class="dc-info">
+            <div class="dc-name">${d.name}</div>
+            <div class="dc-badges">
+              <span class="badge ${d.isAlcoholic ? 'badge-alc' : 'badge-nonalc'}">${d.isAlcoholic ? '🍸 Alcoholic' : '🍃 Non-Alc'}</span>
+              <span class="badge ${typeClass[d.type] || 'badge-coffee'}">${cap(d.type)}</span>
+            </div>
+          </div>
+        </div>
+        <div class="dc-body">
+          <div class="dc-desc">${d.description}</div>
+          <div class="recipe-toggle" onclick="toggleRecipe(this)">
+            <div class="recipe-toggle-left">📋 View Recipe</div>
+            <span class="rt-arrow">▼</span>
+          </div>
+          <div class="recipe-body">
+            <div class="rb-section">Ingredients</div>
+            <div class="rb-ingr-list">
+              ${d.ingredients.map(ing => `<div class="rb-ingr">${ing}</div>`).join('')}
+            </div>
+            <div class="rb-section">Steps</div>
+            <div class="rb-steps">
+              ${d.steps.map((s, si) => `<div class="rb-step"><div class="rb-step-num">${si+1}</div><div>${s}</div></div>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function toggleRecipe(el) {
+    el.classList.toggle('open');
+    el.nextElementSibling.classList.toggle('open');
+  }
+
+  function cap(s) { return s ? s[0].toUpperCase() + s.slice(1) : ''; }
+
+  function resetAll() {
+    state.type = null; state.alcohol = null; state.mood = null;
+    state.ingredients.clear();
+    location.reload();
+  }
+
+  // Init chips
+  renderChips('dairy');
+</script>
+
+</body>
+</html>
